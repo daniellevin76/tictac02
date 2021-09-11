@@ -4,16 +4,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static java.awt.Color.green;
+
 public class Controller implements Initializable {
+
+    public final static String SOUND1_URL = "file:///C:/Users/danie/OneDrive/Skrivbord/tictac02/assets/s1.wav";
+    public final static String SOUND2_URL = "asssets/s2.wav";
+
+    protected MediaPlayer mediaPlayer;
+    protected Media sound;
 
     @FXML
     private Button button1;
@@ -53,6 +62,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
 
         buttons.forEach(button ->{
@@ -75,6 +85,8 @@ public class Controller implements Initializable {
     private void setupButton(Button button) {
         button.setOnMouseClicked(mouseEvent -> {
             setPlayerSymbol(button);
+
+
             button.setDisable(true);
             checkIfGameIsOver();
         });
@@ -82,6 +94,7 @@ public class Controller implements Initializable {
 
     public void setPlayerSymbol(Button button){
         if(playerTurn % 2 == 0){
+
             button.setText("X");
             playerTurn = 1;
         } else{
@@ -130,11 +143,16 @@ public class Controller implements Initializable {
     }
 
     public void playAgainstComputer(ActionEvent actionEvent) {
+
+       // Media media = new Media(new File(SOUND1_URL).toURI().toString());
+        //mediaPlayer = new MediaPlayer(media);
+        //mediaPlayer.play();
         computerMove();
     }
 
 
     public void computerMove(){
+
 
        int randomNum = ThreadLocalRandom.current().nextInt(0, 9);
        while(!buttons.get(randomNum).getText().equals("")){
