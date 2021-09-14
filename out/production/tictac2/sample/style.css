@@ -1,35 +1,5 @@
-#button1 {
-    -fx-font-family: "Ink Free";
-    -fx-background-color: green;
+#anchorPane{
+-fx-font-size: 36;
+-fx-font-weight: bold;
+-fx-font-family: "Ink Free";
 }
-
-#button2 {
-    -fx-background-color: yellow;
-}
-
-#button3 {
-    -fx-background-color: green;
-}
-
-#button4 {
-    -fx-background-color: yellow;
-}
-
-#button5 {
-    -fx-background-color: green;
-}
-
-#button6 {
-    -fx-background-color: yellow;
-}
-#button7 {
-    -fx-background-color: green;
-}
-
-#button8 {
-    -fx-background-color: yellow;
-}
-#button9 {
-    -fx-background-color: green;
-}
-

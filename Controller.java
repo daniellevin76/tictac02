@@ -1,21 +1,28 @@
 package sample;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.Font;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller implements Initializable {
 
+
+    @FXML
+    private Button pvpButton;
+
+    @FXML
+    private Button pveButton;
+
+    @FXML
+    private Button restartButton;
+
     @FXML
     private Button button1;
-
 
     @FXML
     private Button button2;
@@ -42,97 +49,76 @@ public class Controller implements Initializable {
     private Button button9;
 
     @FXML
-    private Text winnerText;
+    private Text titleText;
 
-    private int playerTurn = 0;
-
-    ArrayList<Button> buttons;
+    ArrayList<Button>  buttons;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
         buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
 
-        buttons.forEach(button ->{
-            setupButton(button);
-            button.setFocusTraversable(false);
+        gameSetup(buttons, titleText, pveButton, pvpButton);
+
+        restartButton.setOnMouseClicked(event -> {
+            gameSetup(buttons, titleText, pveButton, pvpButton);
+        });
+
+    }
+
+    private void gameSetup(ArrayList<Button> buttons, Text titleText, Button pveButton, Button pvpButton) {
+
+
+        resetButtons(buttons, titleText, pveButton, pvpButton);
+
+        playAgainstAnotherPlayer(buttons, titleText);
+
+        playAgainstComputer(buttons, titleText);
+
+  }
+
+    private void playAgainstComputer(ArrayList<Button> buttons, Text titleText) {
+        pveButton.setOnMouseClicked(event ->{
+            new PlayerVsEnvironment(buttons, titleText);
+            pveButton.setDisable(true);
+            pvpButton.setDisable(true);
         });
     }
 
-    @FXML
-    void restartGame() {
-        buttons.forEach(this::resetButton);
-        winnerText.setText("Tic-Tac-Toe");
-    }
+    private void playAgainstAnotherPlayer(ArrayList<Button> buttons, Text titleText) {
+        pvpButton.setOnMouseClicked(event ->{
+            new PlayerVsPlayer(buttons, titleText);
+            pveButton.setDisable(true);
+            pvpButton.setDisable(true);
 
-    public void resetButton(Button button){
-        button.setDisable(false);
-        button.setText("");
-    }
-
-    private void setupButton(Button button) {
-        button.setOnMouseClicked(mouseEvent -> {
-            button.setText("text");
-           // setPlayerSymbol(button);
-            button.setDisable(true);
-            checkIfGameIsOver();
         });
     }
 
-    public void setPlayerSymbol(Button button){
-        if(playerTurn % 2 == 0){
-            Font font = Font.font("Ink Free", FontWeight.BOLD, 36);
-            button.setTextFill(javafx.scene.paint.Color.RED);
-            button.setFont(font);
-            button.setText("X");
-            playerTurn = 1;
-        } else{
-            Font font = Font.font("Ink Free", FontWeight.BOLD, 36);
-            button.setTextFill(javafx.scene.paint.Color.BLUE);
+    private void resetButtons(ArrayList<Button> buttons, Text titleText, Button pveButton, Button pvpButton) {
 
-            button.setFont(font);
-            button.setText("O");
-            playerTurn = 0;
-        }
-    }
-
-    public void checkIfGameIsOver(){
-        for (int a = 0; a < 8; a++) {
-            String line = switch (a) {
-                case 0 -> button1.getText() + button2.getText() + button3.getText();
-                case 1 -> button4.getText() + button5.getText() + button6.getText();
-                case 2 -> button7.getText() + button8.getText() + button9.getText();
-                case 3 -> button1.getText() + button5.getText() + button9.getText();
-                case 4 -> button3.getText() + button5.getText() + button7.getText();
-                case 5 -> button1.getText() + button4.getText() + button7.getText();
-                case 6 -> button2.getText() + button5.getText() + button8.getText();
-                case 7 -> button3.getText() + button6.getText() + button9.getText();
-                default -> null;
-            };
-
-            //X winner
-            if (line.equals("XXX")) {
-                winnerText.setText("X won!");
-
-                noAction();
-
-            }
-
-            //O winner
-            else if (line.equals("OOO")) {
-                winnerText.setText("O won!");
-                noAction();
-            }
-        }
-    }
-
-    void noAction() {
-        buttons.forEach(this::preventClick);
+        buttons.forEach(btn ->{
+            btn.setDisable(true);
+            btn.setText(" ");
+        btn.setDisable(true);});
+        titleText.setText("Tic Tac Toe");
+        pvpButton.setDisable(false);
+        pveButton.setDisable(false);
 
     }
-    public void preventClick(Button button){
-        button.setDisable(true);
-        //button.setText("");
-    }
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
