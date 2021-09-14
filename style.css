@@ -1,4 +1,5 @@
 #button1 {
+    -fx-font-family: "Ink Free";
     -fx-background-color: green;
 }
 
@@ -31,3 +32,4 @@
 #button9 {
     -fx-background-color: green;
 }
+
